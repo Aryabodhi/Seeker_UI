@@ -9,7 +9,11 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ProfileDetail"></activity>
+        <activity android:name=".Task"></activity>
+        <activity android:name=".EarnCoins" />
+        <activity android:name=".BuyCoins" />
+        <activity android:name=".UseCoins" />
+        <activity android:name=".ProfileDetail" />
         <activity android:name=".NotificationChat" />
         <activity android:name=".HelpFeedback" />
         <activity android:name=".AboutUs" />
