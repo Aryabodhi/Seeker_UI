@@ -1,0 +1,27 @@
+<resources>
+    <string name="app_name">Seeker_UI</string>
+    <string name="currentProf">Current Profession</string>
+    <string name="highEdu">Highest Eduction</string>
+
+    <string-array name="prof">
+        <item>Select</item>
+        <item>place Holder</item>
+        <item>place Holder</item>
+        <item>place Holder</item>
+        <item>place Holder</item>
+        <item>place Holder</item>
+        <item>place Holder</item>
+        <item>place Holder</item>
+    </string-array>
+
+    <string-array name="edu">
+        <item>Select</item>
+        <item>place holder</item>
+        <item>place holder</item>
+        <item>place holder</item>
+        <item>place holder</item>
+        <item>place holder</item>
+        <item>place holder</item>
+        <item>place holder</item>
+    </string-array>
+</resources>
