@@ -103,6 +103,22 @@ public class Settings extends AppCompatActivity {
             }
         });
 
+        privacyPermissionCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                privacyPermissionCard.setClickable(false);
+                startActivity(new Intent(Settings.this,PrivacyPermission.class));
+            }
+        });
+
+        changePlansCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                changePlansCard.setClickable(false);
+                startActivity(new Intent(Settings.this,ChangePlans.class));
+            }
+        });
+
     }
 
     private void initDistanceSeekBar(){
@@ -144,5 +160,7 @@ public class Settings extends AppCompatActivity {
         helpFeedbackCard.setClickable(true);
         accountSecurityCard.setClickable(true);
         notificationChatCard.setClickable(true);
+        privacyPermissionCard.setClickable(true);
+        changePlansCard.setClickable(true);
     }
 }
