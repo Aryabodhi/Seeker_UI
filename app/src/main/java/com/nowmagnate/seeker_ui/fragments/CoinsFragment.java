@@ -43,7 +43,7 @@ public class CoinsFragment extends Fragment {
         useCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                useCard.setClickable(false);
+                disableClick();
                 startActivity(new Intent(getContext(), UseCoins.class));
             }
         });
@@ -51,7 +51,7 @@ public class CoinsFragment extends Fragment {
         earnCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                earnCard.setClickable(false);
+                disableClick();
                 startActivity(new Intent(getContext(), EarnCoins.class));
             }
         });
@@ -59,7 +59,7 @@ public class CoinsFragment extends Fragment {
         buyCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                buyCard.setClickable(false);
+                disableClick();
                 startActivity(new Intent(getContext(), BuyCoins.class));
             }
         });
@@ -73,5 +73,11 @@ public class CoinsFragment extends Fragment {
         useCard.setClickable(true);
         earnCard.setClickable(true);
         buyCard.setClickable(true);
+    }
+
+    public void disableClick(){
+        useCard.setClickable(false);
+        earnCard.setClickable(false);
+        buyCard.setClickable(false);
     }
 }

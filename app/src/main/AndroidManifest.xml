@@ -9,7 +9,12 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".PrivacyPermission"></activity>
+        <activity android:name=".LoginRegister"><intent-filter>
+            <action android:name="android.intent.action.MAIN" />
+
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter></activity>
+        <activity android:name=".PrivacyPermission" />
         <activity android:name=".VIPMember" />
         <activity android:name=".ChangePlans" />
         <activity android:name=".ReferEarn" />
@@ -29,11 +34,7 @@
         <activity android:name=".Settings" />
         <activity android:name=".AccountSecurity" />
         <activity android:name=".MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
     </application>
 

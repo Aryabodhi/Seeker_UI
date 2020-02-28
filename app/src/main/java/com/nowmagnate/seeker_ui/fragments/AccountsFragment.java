@@ -73,7 +73,7 @@ public class AccountsFragment extends Fragment {
         settingsCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                settingsCard.setClickable(false);
+                disableClick();
                 startActivity(new Intent(getContext(), Settings.class));
             }
         });
@@ -81,7 +81,7 @@ public class AccountsFragment extends Fragment {
         editProfileImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                editProfileImage.setClickable(false);
+                disableClick();
                 startActivity(new Intent(getContext() , AddEditProfileImages.class));
             }
         });
@@ -89,7 +89,7 @@ public class AccountsFragment extends Fragment {
         editProfileName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                editProfileName.setClickable(false);
+                disableClick();
                 startActivity(new Intent(getContext(), EditProfileInfo.class));
             }
         });
@@ -97,7 +97,7 @@ public class AccountsFragment extends Fragment {
         verifyProfileImageCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                verifyProfileImageCard.setClickable(false);
+                disableClick();
                 startActivity(new Intent(getContext(), Verification.class));
             }
         });
@@ -105,7 +105,7 @@ public class AccountsFragment extends Fragment {
         vipMemberCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                vipMemberCard.setClickable(false);
+                disableClick();
                 startActivity(new Intent(getContext(), VIPMember.class));
             }
         });
@@ -113,7 +113,7 @@ public class AccountsFragment extends Fragment {
         whoLikesYouCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                whoLikesYouCard.setClickable(false);
+                disableClick();
                 startActivity(new Intent(getContext(), WhoLikesYou.class));
             }
         });
@@ -121,7 +121,7 @@ public class AccountsFragment extends Fragment {
         referEarnCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                referEarnCard.setClickable(false);
+                disableClick();
                 startActivity(new Intent(getContext(), ReferEarn.class));
             }
         });
@@ -144,5 +144,17 @@ public class AccountsFragment extends Fragment {
         editProfileImage.setClickable(true);
         vipMemberCard.setClickable(true);
 
+    }
+
+
+    public void disableClick(){
+        settingsCard.setClickable(false);
+        whoLikesYouCard.setClickable(false);
+        logOutCard.setClickable(false);
+        referEarnCard.setClickable(false);
+        verifyProfileImageCard.setClickable(false);
+        editProfileName.setClickable(false);
+        editProfileImage.setClickable(false);
+        vipMemberCard.setClickable(false);
     }
 }

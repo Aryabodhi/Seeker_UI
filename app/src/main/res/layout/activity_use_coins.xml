@@ -108,6 +108,8 @@
                 android:textColor="@color/TextColor"
                 android:textSize="20sp" />
 
+
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -144,10 +146,25 @@
 
             </LinearLayout>
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="1 Superlike"
+                android:layout_marginBottom="10dp"
+                android:textColor="@color/TextColor" />
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="#eee"/>
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_margin="10dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginTop="10dp"
                 android:gravity="center"
                 android:orientation="horizontal">
 
@@ -194,6 +211,14 @@
                     android:src="@drawable/speech_bubble" />
 
             </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="1 Superlike &amp; 1 Custom Message"
+                android:layout_marginBottom="10dp"
+                android:textColor="@color/TextColor" />
 
         </LinearLayout>
 
@@ -263,6 +288,13 @@
                     android:src="@drawable/logo_new" />
 
             </LinearLayout>
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="1 Crush"
+                android:textColor="@color/TextColor" />
 
         </LinearLayout>
 

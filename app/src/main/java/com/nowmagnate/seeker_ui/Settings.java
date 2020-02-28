@@ -66,7 +66,7 @@ public class Settings extends AppCompatActivity {
         showMeWhoCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                showMeWhoCard.setClickable(false);
+                disableClick();
                 startActivity(new Intent(Settings.this,ShowMeWho.class));
             }
         });
@@ -74,7 +74,7 @@ public class Settings extends AppCompatActivity {
         aboutUsCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                aboutUsCard.setClickable(false);
+                disableClick();
                 startActivity(new Intent(Settings.this,AboutUs.class));
             }
         });
@@ -82,7 +82,7 @@ public class Settings extends AppCompatActivity {
         helpFeedbackCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                helpFeedbackCard.setClickable(false);
+                disableClick();
                 startActivity(new Intent(Settings.this,HelpFeedback.class));
             }
         });
@@ -90,7 +90,7 @@ public class Settings extends AppCompatActivity {
         accountSecurityCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                accountSecurityCard.setClickable(false);
+                disableClick();
                 startActivity(new Intent(Settings.this,AccountSecurity.class));
             }
         });
@@ -98,7 +98,7 @@ public class Settings extends AppCompatActivity {
         notificationChatCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                notificationChatCard.setClickable(false);
+                disableClick();disableClick();
                 startActivity(new Intent(Settings.this,NotificationChat.class));
             }
         });
@@ -106,7 +106,7 @@ public class Settings extends AppCompatActivity {
         privacyPermissionCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                privacyPermissionCard.setClickable(false);
+                disableClick();
                 startActivity(new Intent(Settings.this,PrivacyPermission.class));
             }
         });
@@ -114,7 +114,7 @@ public class Settings extends AppCompatActivity {
         changePlansCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                changePlansCard.setClickable(false);
+                disableClick();
                 startActivity(new Intent(Settings.this,ChangePlans.class));
             }
         });
@@ -162,5 +162,15 @@ public class Settings extends AppCompatActivity {
         notificationChatCard.setClickable(true);
         privacyPermissionCard.setClickable(true);
         changePlansCard.setClickable(true);
+    }
+
+    public void disableClick(){
+        showMeWhoCard.setClickable(false);
+        aboutUsCard.setClickable(false);
+        helpFeedbackCard.setClickable(false);
+        accountSecurityCard.setClickable(false);
+        notificationChatCard.setClickable(false);
+        privacyPermissionCard.setClickable(false);
+        changePlansCard.setClickable(false);
     }
 }
