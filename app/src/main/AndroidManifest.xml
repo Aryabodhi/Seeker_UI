@@ -9,7 +9,21 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ProfileDetail"></activity>
+        <activity android:name=".LoginRegister"><intent-filter>
+            <action android:name="android.intent.action.MAIN" />
+
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter></activity>
+        <activity android:name=".PrivacyPermission" />
+        <activity android:name=".VIPMember" />
+        <activity android:name=".ChangePlans" />
+        <activity android:name=".ReferEarn" />
+        <activity android:name=".WhoLikesYou" />
+        <activity android:name=".Task" />
+        <activity android:name=".EarnCoins" />
+        <activity android:name=".BuyCoins" />
+        <activity android:name=".UseCoins" />
+        <activity android:name=".ProfileDetail" />
         <activity android:name=".NotificationChat" />
         <activity android:name=".HelpFeedback" />
         <activity android:name=".AboutUs" />
@@ -20,11 +34,7 @@
         <activity android:name=".Settings" />
         <activity android:name=".AccountSecurity" />
         <activity android:name=".MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
 
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
     </application>
 

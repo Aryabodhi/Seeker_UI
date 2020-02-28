@@ -20,8 +20,11 @@ import androidx.fragment.app.Fragment;
 import com.nowmagnate.seeker_ui.AddEditProfileImages;
 import com.nowmagnate.seeker_ui.EditProfileInfo;
 import com.nowmagnate.seeker_ui.R;
+import com.nowmagnate.seeker_ui.ReferEarn;
 import com.nowmagnate.seeker_ui.Settings;
+import com.nowmagnate.seeker_ui.VIPMember;
 import com.nowmagnate.seeker_ui.Verification;
+import com.nowmagnate.seeker_ui.WhoLikesYou;
 
 import java.util.Random;
 
@@ -36,7 +39,7 @@ public class AccountsFragment extends Fragment {
     private TextView streetText;
 
     //Cards
-    private  CardView preferenceCard , settingsCard,
+    private  CardView settingsCard,
                         whoLikesYouCard , logOutCard,
                             referEarnCard, verifyProfileImageCard,
                                 vipMemberCard;
@@ -57,7 +60,6 @@ public class AccountsFragment extends Fragment {
         datingText = view.findViewById(R.id.dating_text);
         streetText = view.findViewById(R.id.street_text);
 
-        preferenceCard = view.findViewById(R.id.preference_card);
         settingsCard = view.findViewById(R.id.settings_card);
         whoLikesYouCard = view.findViewById(R.id.who_likes_you_card);
         logOutCard = view.findViewById(R.id.log_out_card);
@@ -71,7 +73,7 @@ public class AccountsFragment extends Fragment {
         settingsCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                settingsCard.setClickable(false);
+                disableClick();
                 startActivity(new Intent(getContext(), Settings.class));
             }
         });
@@ -79,7 +81,7 @@ public class AccountsFragment extends Fragment {
         editProfileImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                editProfileImage.setClickable(false);
+                disableClick();
                 startActivity(new Intent(getContext() , AddEditProfileImages.class));
             }
         });
@@ -87,7 +89,7 @@ public class AccountsFragment extends Fragment {
         editProfileName.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                editProfileName.setClickable(false);
+                disableClick();
                 startActivity(new Intent(getContext(), EditProfileInfo.class));
             }
         });
@@ -95,8 +97,32 @@ public class AccountsFragment extends Fragment {
         verifyProfileImageCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                verifyProfileImageCard.setClickable(false);
+                disableClick();
                 startActivity(new Intent(getContext(), Verification.class));
+            }
+        });
+
+        vipMemberCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                disableClick();
+                startActivity(new Intent(getContext(), VIPMember.class));
+            }
+        });
+
+        whoLikesYouCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                disableClick();
+                startActivity(new Intent(getContext(), WhoLikesYou.class));
+            }
+        });
+
+        referEarnCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                disableClick();
+                startActivity(new Intent(getContext(), ReferEarn.class));
             }
         });
 
@@ -110,13 +136,25 @@ public class AccountsFragment extends Fragment {
     public void onResume() {
         super.onResume();
         settingsCard.setClickable(true);
-        preferenceCard.setClickable(true);
         whoLikesYouCard.setClickable(true);
         logOutCard.setClickable(true);
         referEarnCard.setClickable(true);
         verifyProfileImageCard.setClickable(true);
         editProfileName.setClickable(true);
         editProfileImage.setClickable(true);
+        vipMemberCard.setClickable(true);
 
+    }
+
+
+    public void disableClick(){
+        settingsCard.setClickable(false);
+        whoLikesYouCard.setClickable(false);
+        logOutCard.setClickable(false);
+        referEarnCard.setClickable(false);
+        verifyProfileImageCard.setClickable(false);
+        editProfileName.setClickable(false);
+        editProfileImage.setClickable(false);
+        vipMemberCard.setClickable(false);
     }
 }

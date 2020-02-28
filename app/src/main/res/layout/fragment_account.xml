@@ -260,62 +260,6 @@
 
             </androidx.cardview.widget.CardView>
 
-            <androidx.cardview.widget.CardView
-                android:id="@+id/preference_card"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                app:cardCornerRadius="5dp"
-                android:elevation="10dp"
-                android:layout_marginBottom="2.5dp"
-                android:layout_marginTop="2.5dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:clickable="true"
-                android:stateListAnimator="@animator/elevation_animation"
-                android:foreground="?attr/selectableItemBackground"
-                app:layout_constraintEnd_toEndOf="@+id/cardView3"
-                app:layout_constraintStart_toStartOf="@+id/cardView3"
-                app:layout_constraintTop_toBottomOf="@+id/cardView3">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal"
-                    android:gravity="center"
-                    android:weightSum="5">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="left"
-                        android:layout_marginLeft="10dp"
-                        android:text="PREFERENCE"
-                        android:layout_marginTop="5dp"
-                        android:layout_marginBottom="5dp"
-                        android:padding="5dp"
-                        android:layout_weight="4"
-                        android:textSize="18sp"
-                        android:textColor="@color/TextColor"
-                        tools:layout_editor_absoluteX="6dp"
-                        tools:layout_editor_absoluteY="483dp" />
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:gravity="right"
-                        android:paddingTop="5dp"
-                        android:paddingBottom="5dp"
-                        android:paddingLeft="5dp"
-                        android:paddingRight="20dp"
-                        android:text=">"
-                        android:layout_weight="1"
-                        android:textSize="20sp"
-                        tools:layout_editor_absoluteX="6dp"
-                        tools:layout_editor_absoluteY="483dp" />
-                </LinearLayout>
-
-            </androidx.cardview.widget.CardView>
-
     <androidx.cardview.widget.CardView
         android:id="@+id/settings_card"
         android:layout_width="match_parent"
@@ -329,9 +273,9 @@
         android:stateListAnimator="@animator/elevation_animation"
         android:foreground="?attr/selectableItemBackground"
         app:cardCornerRadius="5dp"
-        app:layout_constraintEnd_toEndOf="@+id/preference_card"
-        app:layout_constraintStart_toStartOf="@+id/preference_card"
-        app:layout_constraintTop_toBottomOf="@+id/preference_card">
+        app:layout_constraintEnd_toEndOf="@+id/verify_dp_card"
+        app:layout_constraintStart_toStartOf="@+id/verify_dp_card"
+        app:layout_constraintTop_toBottomOf="@+id/verify_dp_card">
 
         <LinearLayout
             android:layout_width="match_parent"

@@ -79,7 +79,7 @@ public class ShowMeWho extends AppCompatActivity {
         doneCard.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                startActivity(new Intent(ShowMeWho.this, Settings.class));
+                finish();
             }
         });
 
