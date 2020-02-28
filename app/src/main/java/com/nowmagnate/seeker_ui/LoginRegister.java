@@ -22,8 +22,6 @@ import com.nowmagnate.seeker_ui.util.GradientStatusBar;
 
 public class LoginRegister extends AppCompatActivity {
 
-    private ImageView toolbarBack;
-    private TextView toolbarTitle;
     private ConstraintLayout splashScreen;
     private ImageView animImage;
     private TextView animStreet, animDating;
@@ -35,8 +33,6 @@ public class LoginRegister extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login_register);
 
-        toolbarBack = findViewById(R.id.back);
-        toolbarTitle = findViewById(R.id.title);
         splashScreen = findViewById(R.id.splashScreen);
         googleCard = findViewById(R.id.google_card);
         facebookCard = findViewById(R.id.facebook_card);
@@ -46,14 +42,6 @@ public class LoginRegister extends AppCompatActivity {
         animDating = findViewById(R.id.anim_dating);
 
         GradientStatusBar.setStatusBarGradiant(this);
-
-        toolbarTitle.setText("LOGIN");
-        toolbarBack.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                onBackPressed();
-            }
-        });
 
         splashScreen.setClickable(true);
 
