@@ -2,10 +2,9 @@ package com.nowmagnate.seeker_ui.fragments;
 
 import android.content.Context;
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.graphics.Color;
+import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,8 +16,18 @@ import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.nowmagnate.seeker_ui.AddEditProfileImages;
 import com.nowmagnate.seeker_ui.EditProfileInfo;
+import com.nowmagnate.seeker_ui.LoginRegister;
+import com.nowmagnate.seeker_ui.MainActivity;
 import com.nowmagnate.seeker_ui.R;
 import com.nowmagnate.seeker_ui.ReferEarn;
 import com.nowmagnate.seeker_ui.Settings;
@@ -26,7 +35,7 @@ import com.nowmagnate.seeker_ui.VIPMember;
 import com.nowmagnate.seeker_ui.Verification;
 import com.nowmagnate.seeker_ui.WhoLikesYou;
 
-import java.util.Random;
+import java.util.Calendar;
 
 public class AccountsFragment extends Fragment {
 
@@ -34,7 +43,7 @@ public class AccountsFragment extends Fragment {
     private ImageView profileImage, verificationImage,
                         editProfileImage , editProfileName,
                         blurImg;
-    private TextView profileName;
+    private TextView profileName,profileAge;
     private TextView datingText;
     private TextView streetText;
 
@@ -46,12 +55,21 @@ public class AccountsFragment extends Fragment {
 
     private Context c;
 
+    private FirebaseAuth mAuth = FirebaseAuth.getInstance();
+    FirebaseUser user = mAuth.getCurrentUser();
+
+    private GoogleSignInClient mGoogleSignInClient;
+
+    final FirebaseDatabase database = FirebaseDatabase.getInstance();
+    DatabaseReference ref = database.getReference("seeker-378eb");
+
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_account, container, false);
 
         profileImage = view.findViewById(R.id.accountImage);
+        profileAge = view.findViewById(R.id.accountAge);
         profileName = view.findViewById(R.id.accountName);
         verificationImage = view.findViewById(R.id.verifiedImage);
         editProfileImage = view.findViewById(R.id.edit_profile_image);
@@ -69,6 +87,8 @@ public class AccountsFragment extends Fragment {
 
         datingText.setVisibility(View.GONE);
         streetText.setText("ACCOUNT");
+
+        initUI();
 
         settingsCard.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -126,6 +146,12 @@ public class AccountsFragment extends Fragment {
             }
         });
 
+        logOutCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                signOut();
+            }
+        });
 
 
 
@@ -156,5 +182,75 @@ public class AccountsFragment extends Fragment {
         editProfileName.setClickable(false);
         editProfileImage.setClickable(false);
         vipMemberCard.setClickable(false);
+    }
+
+
+    private void signOut() {
+        // Firebase sign out
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        mAuth.signOut();
+        ((MainActivity)getContext()).signOut();
+        startActivity(new Intent(getContext(),LoginRegister.class));
+        ((MainActivity)getContext()).finish();
+    }
+
+    public void initUI() {
+        ref = ref.child(user.getUid());
+        ref.child("name").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.getValue() != null) {
+                    profileName.setText(dataSnapshot.getValue().toString());
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+
+        ref.child("dob").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if (dataSnapshot.getValue() != null) {
+                    String date = dataSnapshot.getValue().toString();
+
+                    int d = Integer.parseInt(date.substring(0,2));
+                    int m = Integer.parseInt(date.substring(3,5));
+                    int y = Integer.parseInt(date.substring(6));
+                    String age = calculateAge(y,m,d);
+                    profileAge.setText(", "+age);
+
+                    Log.i("pop", date.substring(0,2) +" "+
+                            date.substring(3,5)+" "+
+                            date.substring(6));
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+
+    public String calculateAge(int year, int month, int day){
+        Calendar d_o_b = Calendar.getInstance();
+        Calendar today = Calendar.getInstance();
+
+        d_o_b.set(year, month, day);
+
+        int age = today.get(Calendar.YEAR) - d_o_b.get(Calendar.YEAR);
+
+        if (today.get(Calendar.DAY_OF_YEAR) < d_o_b.get(Calendar.DAY_OF_YEAR)){
+            age--;
+        }
+
+        Integer ageInt = new Integer(age);
+        String ageS = ageInt.toString();
+
+        return ageS;
     }
 }

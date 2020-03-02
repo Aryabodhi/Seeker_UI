@@ -12,7 +12,7 @@ import android.widget.TextView;
 
 import com.nowmagnate.seeker_ui.util.GradientStatusBar;
 
-public class Task extends AppCompatActivity {
+public class CoinTask extends AppCompatActivity {
 
     private CardView one, two, doTaskCard;
     private TextView oneText, twoText,errorMessage;

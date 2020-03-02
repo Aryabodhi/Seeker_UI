@@ -40,7 +40,7 @@ public class EarnCoins extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 doTaskCard.setClickable(false);
-                startActivity(new Intent(EarnCoins.this,Task.class));
+                startActivity(new Intent(EarnCoins.this, CoinTask.class));
             }
         });
     }

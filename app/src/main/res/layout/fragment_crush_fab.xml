@@ -83,6 +83,39 @@
 
             </LinearLayout>
 
+            <LinearLayout
+                android:id="@+id/pay_layout"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="#eee"
+                android:visibility="gone"
+                android:gravity="center">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:text="Spend 5"
+                    android:textColor="@color/TextColor"
+                    android:textSize="20sp" />
+
+                <ImageView
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:src="@drawable/cent" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="5dp"
+                    android:layout_marginRight="5dp"
+                    android:text="for next crush."
+                    android:textColor="@color/TextColor"
+                    android:textSize="20sp" />
+
+            </LinearLayout>
+
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.cardview.widget.CardView>
@@ -104,9 +137,10 @@
             android:src="@drawable/ic_timer_black_24dp" />
 
         <TextView
+            android:id="@+id/timer"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="00:30 Hr Left"
+            android:text=""
             android:textSize="16sp"/>
 
     </LinearLayout>
@@ -129,6 +163,7 @@
             android:src="@drawable/like"
             app:borderWidth="0dp"
             app:maxImageSize="24dp"
+            android:id="@+id/likeFAB"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintStart_toEndOf="@+id/rewindFab"
             app:layout_constraintTop_toTopOf="@+id/rewindFab"
@@ -140,6 +175,7 @@
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
             android:rotation="180"
+            android:id="@+id/dislikeFaB"
             android:backgroundTint="#F76E6E"
             android:src="@drawable/like"
             app:borderWidth="0dp"
