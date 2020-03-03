@@ -3,12 +3,15 @@ package com.nowmagnate.seeker_ui.fragments;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -46,8 +49,10 @@ public class CrushFabFragment extends Fragment {
     private CardView profileCard;
     private int min , sec;
     private long currentTime,counterStartTime;
+    Handler handler;
 
     boolean CounterEnable = true;
+    //CountDownTimer countDownTimer;
 
     final FirebaseDatabase database = FirebaseDatabase.getInstance();
     FirebaseAuth mAuth = FirebaseAuth.getInstance();
@@ -82,6 +87,8 @@ public class CrushFabFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 CounterEnable = false;
+                setCounterAvailable(false);
+                stopTimer();
             }
         });
 
@@ -89,10 +96,14 @@ public class CrushFabFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 CounterEnable = false;
+                setCounterAvailable(false);
+                stopTimer();
             }
         });
 
-        checkDate();
+        //Counter();
+        getCounterStartTime();
+
 
 
         return view;
@@ -106,57 +117,72 @@ public class CrushFabFragment extends Fragment {
     }
 
     public void Counter(){
-        if(CounterEnable) {
-            Handler handler = new Handler();
+            handler = new Handler();
             handler.postDelayed(new Runnable() {
                 @Override
                 public void run() {
-                    if (CounterEnable) {
-                        sec = sec - 1;
-                        if (sec == 0) {
-                            min = min - 1;
-                            if (min == 0) {
-                                timerUp();
-                                CounterEnable = false;
-                                setCounterAvailable(false);
-                            } else {
-                                sec = 60;
-                                timer.setText(String.valueOf(min) + ":" + String.valueOf(sec) + " min left");
-                            }
+                    sec = sec-1;
+                    if(sec == 0){
+                        min = min-1;
+                        if(min == 0){
+                            timerUp();
+                            stopTimer();
                         }
+                        else {
+                            sec = 60;
+                        }
+                    }
+                    if(CounterEnable) {
+                        updateTimer(min,sec);
                         Counter();
                     }
                 }
-            }, 1000);
-        }
+            },1000);
     }
 
     public void checkCounterAvailable(){
-        ref.child("isTimerUp").addValueEventListener(new ValueEventListener() {
+        ref.child("CounterAvailable").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if(dataSnapshot.getValue()==null){
                     addTimeToDB();
                     CounterEnable = true;
                     setCounterAvailable(true);
-                    min = 30;
-                    sec = 0;
-                    timer.setText("30:00 min left");
-                    Counter();
+                    min = 29;
+                    sec = 60;
+                    updateTimer(min,sec);
+                    startTimer();
                 }
                 else if(Boolean.parseBoolean(dataSnapshot.getValue().toString())){
                     CounterEnable = true;
-                    getCounterStartTime();
+                    currentTime = ((MainActivity)getContext()).getCurrentTime();
                     Long timeDelta = currentTime - counterStartTime;
-                    if(TimeUnit.MILLISECONDS.toMinutes(timeDelta) > 30){
-                        min = 30 - (int) TimeUnit.MILLISECONDS.toMinutes(timeDelta);
-                        sec = (int) TimeUnit.MILLISECONDS.toSeconds(timeDelta);
-                        Counter();
+                    Log.i("timeMin", String.valueOf(TimeUnit.MILLISECONDS.toMinutes(timeDelta)));
+                    Log.i("timeSec", String.valueOf(TimeUnit.MILLISECONDS.toSeconds(timeDelta)));
+                    Log.i("timeDelta", String.valueOf(timeDelta));
+                    Log.i("timeStart", String.valueOf(counterStartTime));
+                    if((int)TimeUnit.MILLISECONDS.toMinutes(timeDelta) < 30){
+                        if((int) TimeUnit.MILLISECONDS.toMinutes(timeDelta)==0){
+                            min = 29;
+                        }
+                        else {
+                            min = 30 - (int) TimeUnit.MILLISECONDS.toMinutes(timeDelta);
+                        }
+                        if((int) TimeUnit.MILLISECONDS.toSeconds(timeDelta)%60==0){
+                            sec = 60;
+                        }else {
+                            sec = (int) TimeUnit.MILLISECONDS.toSeconds(timeDelta)%60;
+                        }
+                        updateTimer(min,sec);
+                        startTimer();
+
+                        Log.i("timeMin", String.valueOf(TimeUnit.MILLISECONDS.toMinutes(timeDelta)));
+                        Log.i("timeSec", String.valueOf(TimeUnit.MILLISECONDS.toSeconds(timeDelta)));
                     }
-                    else{
-                        setCounterAvailable(false);
-                        timerUp();
-                    }
+                }
+                else{
+                    timerUp();
+                    Log.i("timerUp", "called ");
                 }
             }
 
@@ -190,7 +216,15 @@ public class CrushFabFragment extends Fragment {
         ref.child("time").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                counterStartTime = Long.parseLong(dataSnapshot.getValue().toString());
+                if(dataSnapshot.getValue()==null){
+                    counterStartTime = ((MainActivity)getContext()).getCurrentTime();
+                    addTimeToDB();
+                }
+                else {
+                    counterStartTime = Long.parseLong(dataSnapshot.getValue().toString());
+                }
+                Log.i("getCounterStartTime", "called");
+                checkDate();
             }
 
             @Override
@@ -224,6 +258,8 @@ public class CrushFabFragment extends Fragment {
                     setCounterAvailable(true);
                     CounterEnable = true;
                 }
+
+                Log.i("checkDateTime", "called");
             }
 
             @Override
@@ -234,4 +270,32 @@ public class CrushFabFragment extends Fragment {
         checkCounterAvailable();
     }
 
+    public void stopTimer(){
+        //countDownTimer.cancel();
+        timerUp();
+        setCounterAvailable(false);
+    }
+
+    public void startTimer(){
+        //countDownTimer.start();
+        Counter();
+    }
+
+    public void updateTimer(int min,int sec){
+        String m,s;
+        if(min <10){
+            m = "0"+min;
+        }
+        else{
+            m = String.valueOf(min);
+        }
+
+        if(sec <10){
+            s = "0"+sec;
+        }
+        else{
+            s = String.valueOf(sec);
+        }
+        timer.setText(m+":"+s+" min left.");
+    }
 }
