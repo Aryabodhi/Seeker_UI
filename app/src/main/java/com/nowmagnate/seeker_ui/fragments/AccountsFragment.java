@@ -25,6 +25,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.nowmagnate.seeker_ui.AddEditProfileImages;
+import com.nowmagnate.seeker_ui.ChangePlans;
 import com.nowmagnate.seeker_ui.EditProfileInfo;
 import com.nowmagnate.seeker_ui.LoginRegister;
 import com.nowmagnate.seeker_ui.MainActivity;
@@ -51,7 +52,7 @@ public class AccountsFragment extends Fragment {
     private  CardView settingsCard,
                         whoLikesYouCard , logOutCard,
                             referEarnCard, verifyProfileImageCard,
-                                vipMemberCard;
+                                vipMemberCard,changePlansCard;
 
     private Context c;
 
@@ -77,6 +78,7 @@ public class AccountsFragment extends Fragment {
         blurImg = view.findViewById(R.id.blurImg);
         datingText = view.findViewById(R.id.dating_text);
         streetText = view.findViewById(R.id.street_text);
+        changePlansCard = view.findViewById(R.id.change_plans_card);
 
         settingsCard = view.findViewById(R.id.settings_card);
         whoLikesYouCard = view.findViewById(R.id.who_likes_you_card);
@@ -153,7 +155,13 @@ public class AccountsFragment extends Fragment {
             }
         });
 
-
+        changePlansCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                disableClick();
+                startActivity(new Intent(getContext(), ChangePlans.class));
+            }
+        });
 
         return view;
     }
@@ -169,7 +177,7 @@ public class AccountsFragment extends Fragment {
         editProfileName.setClickable(true);
         editProfileImage.setClickable(true);
         vipMemberCard.setClickable(true);
-
+        changePlansCard.setClickable(true);
     }
 
 
@@ -182,6 +190,7 @@ public class AccountsFragment extends Fragment {
         editProfileName.setClickable(false);
         editProfileImage.setClickable(false);
         vipMemberCard.setClickable(false);
+        changePlansCard.setClickable(false);
     }
 
 

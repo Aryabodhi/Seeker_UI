@@ -26,8 +26,11 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.nowmagnate.seeker_ui.util.GradientStatusBar;
 
 import java.util.HashMap;
@@ -124,14 +127,13 @@ public class LoginRegister extends AppCompatActivity {
     public void onLoginCardClick(){
         if(!isUserLoggedIn){
             FirebaseUser user = mAuth.getCurrentUser();
-        ref = ref.child("users");
         Map<String,String> id = new HashMap<>();
         id.put(user.getUid(),getResources().getString(R.string.default_web_client_id));
         ref.setValue(id);
         Map<String,String> name = new HashMap<>();
         name.put("name",user.getDisplayName());
         ref.child(user.getUid()).setValue(name);
-        startActivity(new Intent(LoginRegister.this,EditProfileInfo.class));
+        isInfo();
         finish();}
         else {
             startActivity(new Intent(LoginRegister.this,MainActivity.class));
@@ -157,8 +159,7 @@ public class LoginRegister extends AppCompatActivity {
             public void run() {
                 // Do something after 5s = 5000ms
                 if(isUserLoggedIn){
-                    startActivity(new Intent(LoginRegister.this,MainActivity.class));
-                    finish();
+                    isInfo();
                 }
                 else {
                     splashScreen.animate().translationX(splashScreen.getRight()).alpha(0);
@@ -274,4 +275,31 @@ public class LoginRegister extends AppCompatActivity {
         finish();
         super.onBackPressed();
     }
+
+    public void isInfo(){
+        final FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference ref = database.getReference("seeker-378eb");
+        FirebaseAuth mAuth = FirebaseAuth.getInstance();
+        FirebaseUser user = mAuth.getCurrentUser();
+
+        ref.child(user.getUid()).child("phone").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if(dataSnapshot.getValue()==null){
+                    startActivity(new Intent(LoginRegister.this,basicInfoActivity.class));
+                    finish();
+                }
+                else{
+                    startActivity(new Intent(LoginRegister.this,MainActivity.class));
+                    finish();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
 }

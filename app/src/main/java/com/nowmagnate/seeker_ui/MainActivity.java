@@ -52,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
 
     SharedPreferences preferences;
     Fragment selectedFragment = null;
+    private boolean isTimerTicking = false;
 
     boolean trap = true;
 
@@ -73,7 +74,7 @@ public class MainActivity extends AppCompatActivity {
 
         preferences = getSharedPreferences("UPDATED",MODE_PRIVATE);
         if(preferences.getBoolean("isUPDATED", false)==false){
-            startActivity(new Intent(MainActivity.this,EditProfileInfo.class));
+            //startActivity(new Intent(MainActivity.this,EditProfileInfo.class));
         }
         Log.i("pop", String.valueOf(preferences.getBoolean("isUPDATED",false)));
 
@@ -90,6 +91,7 @@ public class MainActivity extends AppCompatActivity {
     public void intBottomNavBar(){
 
         replaceFragment(new CardsFragment());
+
         cards.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -137,8 +139,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void replaceFragment(Fragment fragment){
-        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_frame,
-                fragment).commit();
+//        getSupportFragmentManager().beginTransaction().replace(R.id.fragment_frame,
+//                fragment).commit();
+        getSupportFragmentManager().beginTransaction().add(R.id.fragment_frame,fragment).commitNow();
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
@@ -218,4 +221,5 @@ public class MainActivity extends AppCompatActivity {
         a.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
         startActivity(a);
     }
+
 }

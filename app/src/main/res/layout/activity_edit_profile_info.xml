@@ -25,13 +25,7 @@
             android:layout_margin="10dp"
             android:orientation="vertical">
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textColor="#FF0000"
-                android:gravity="center"
-                android:text="Date of birth, Gender and Phone cannot be changed once updated."
-                android:textSize="18sp"/>
+
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
@@ -58,94 +52,9 @@
                     android:textSize="20sp" />
             </com.google.android.material.textfield.TextInputLayout>
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:layout_marginTop="2.5dp"
-                android:layout_marginBottom="2.5dp"
-                android:weightSum="2">
-
-                <TextView
-                    android:id="@+id/selected_date"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:textColor="@color/TextColor"
-                    android:textSize="20sp"
-                    android:layout_marginRight="2.5dp"
-                    android:background="@drawable/edittext_left_round_background"
-                    android:hint="Date of birth*"
-                    android:gravity="center"
-                    android:textColorHint="#656566"
-                    android:layout_weight="2"/>
-
-
-                <ImageView
-                    android:elevation="15dp"
-                    android:textColor="#fff"
-                    android:id="@+id/btn_select_date"
-                    android:src="@drawable/edittext_right_round_background"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="2"
-                    android:stateListAnimator="@animator/elevation_animation"
-                    android:clickable="true"
-                    android:layout_marginStart="2.5dp"
-                    android:foreground="?attr/selectableItemBackground"
-                    android:text="Select Date Of Birth" />
 
 
 
-            </LinearLayout>
-
-            <TextView
-                android:id="@+id/gender_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Gender*"
-                android:layout_marginStart="10dp"
-                android:textSize="18sp"/>
-
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:weightSum="2">
-
-                <TextView
-                    android:id="@+id/male_text"
-                    android:gravity="center"
-                    android:elevation="15dp"
-                    android:textColor="#fff"
-                    android:background="@drawable/edittext_grey_left_round_background"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:stateListAnimator="@animator/elevation_animation"
-                    android:clickable="true"
-                    android:textSize="20sp"
-                    android:layout_marginStart="2.5dp"
-                    android:foreground="?attr/selectableItemBackground"
-                    android:text="MALE" />
-
-                <TextView
-                    android:id="@+id/female_text"
-                    android:gravity="center"
-                    android:elevation="15dp"
-                    android:textColor="#fff"
-                    android:background="@drawable/edittext_grey_right_round_background"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:stateListAnimator="@animator/elevation_animation"
-                    android:clickable="true"
-                    android:textSize="20sp"
-                    android:layout_marginStart="2.5dp"
-                    android:foreground="?attr/selectableItemBackground"
-                    android:text="FEMALE" />
-
-
-            </LinearLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
@@ -233,30 +142,6 @@
 
                 </LinearLayout>
 
-
-            <com.google.android.material.textfield.TextInputLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="2.5dp"
-                app:boxCornerRadiusBottomEnd="20dp"
-                app:boxCornerRadiusBottomStart="20dp"
-                app:boxCornerRadiusTopEnd="20dp"
-                app:boxCornerRadiusTopStart="20dp"
-                android:layout_marginBottom="2.5dp"
-                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense">
-
-                <EditText
-                    android:layout_marginTop="10dp"
-                    android:id="@+id/phone_editText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="Phone"
-                    android:inputType="phone"
-                    android:padding="10dp"
-                    android:textColor="@color/TextColor"
-                    android:textColorHint="#B8E697"
-                    android:textSize="20sp" />
-            </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"

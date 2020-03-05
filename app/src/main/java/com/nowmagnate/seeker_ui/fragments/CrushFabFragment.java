@@ -36,6 +36,7 @@ import com.nowmagnate.seeker_ui.adapters.CardImageViewPagerAdapter;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.TimeUnit;
 
 public class CrushFabFragment extends Fragment {
@@ -47,12 +48,14 @@ public class CrushFabFragment extends Fragment {
     private FloatingActionButton likeFAB,dislikeFAB;
 
     private CardView profileCard;
-    private int min , sec;
+    private boolean isTimerTicking = false;
+    private long min , sec, timeLeft =1799000;
+    String m,s;
     private long currentTime,counterStartTime;
     Handler handler;
 
     boolean CounterEnable = true;
-    //CountDownTimer countDownTimer;
+    CountDownTimer countDownTimer;
 
     final FirebaseDatabase database = FirebaseDatabase.getInstance();
     FirebaseAuth mAuth = FirebaseAuth.getInstance();
@@ -89,6 +92,7 @@ public class CrushFabFragment extends Fragment {
                 CounterEnable = false;
                 setCounterAvailable(false);
                 stopTimer();
+                timerUp();
             }
         });
 
@@ -98,10 +102,11 @@ public class CrushFabFragment extends Fragment {
                 CounterEnable = false;
                 setCounterAvailable(false);
                 stopTimer();
+                timerUp();
             }
         });
 
-        //Counter();
+        Counter();
         getCounterStartTime();
 
 
@@ -117,27 +122,48 @@ public class CrushFabFragment extends Fragment {
     }
 
     public void Counter(){
-            handler = new Handler();
-            handler.postDelayed(new Runnable() {
+            countDownTimer = new CountDownTimer(1800000, 1000){
                 @Override
-                public void run() {
-                    sec = sec-1;
-                    if(sec == 0){
-                        min = min-1;
+                public void onTick(long l) {
+                    if(l < timeLeft) {
+                        timeLeft = timeLeft - 1000;
+//                        sec = sec - 1;
+//                        if (sec == 0) {
+//                            min = min - 1;
+//                            if (min == 0) {
+//                                timerUp();
+//                                stopTimer();
+//                            } else {
+//                                sec = 60;
+//                            }
+//                        }
+                        Long timeDelta = ((MainActivity)getContext()).getCurrentTime() - counterStartTime;
+                        if ((timeDelta / 1000) / 60 == 0) {
+                            min = 29;
+                        } else {
+                            min = 30 - ((timeDelta / 1000) / 60);
+                        }
+                        if ((int) ((timeDelta / 1000) % 60) == 0) {
+                            sec = 60;
+                        } else {
+                            sec = 60-((timeDelta / 1000) % 60);
+                        }
+                        updateTimer(min, sec);
                         if(min == 0){
                             timerUp();
-                            stopTimer();
                         }
-                        else {
-                            sec = 60;
-                        }
-                    }
-                    if(CounterEnable) {
-                        updateTimer(min,sec);
-                        Counter();
                     }
                 }
-            },1000);
+
+                @Override
+                public void onFinish() {
+                    timerUp();
+                    isTimerTicking = false;
+                }
+            };
+            isTimerTicking = true;
+
+
     }
 
     public void checkCounterAvailable(){
@@ -161,27 +187,31 @@ public class CrushFabFragment extends Fragment {
                     Log.i("timeSec", String.valueOf(TimeUnit.MILLISECONDS.toSeconds(timeDelta)));
                     Log.i("timeDelta", String.valueOf(timeDelta));
                     Log.i("timeStart", String.valueOf(counterStartTime));
-                    if((int)TimeUnit.MILLISECONDS.toMinutes(timeDelta) < 30){
-                        if((int) TimeUnit.MILLISECONDS.toMinutes(timeDelta)==0){
-                            min = 29;
-                        }
-                        else {
-                            min = 30 - (int) TimeUnit.MILLISECONDS.toMinutes(timeDelta);
-                        }
-                        if((int) TimeUnit.MILLISECONDS.toSeconds(timeDelta)%60==0){
-                            sec = 60;
-                        }else {
-                            sec = (int) TimeUnit.MILLISECONDS.toSeconds(timeDelta)%60;
-                        }
-                        updateTimer(min,sec);
-                        startTimer();
+                        if ((timeDelta / 1000) / 60 < 30) {
+                            if ((timeDelta / 1000) / 60 == 0) {
+                                min = 29;
+                            } else {
+                                min = 30 - ((timeDelta / 1000) / 60);
+                            }
+                            if ((int) ((timeDelta / 1000) % 60) == 0) {
+                                sec = 60;
+                            } else {
+                                sec = 60-((timeDelta / 1000) % 60);
+                            }
+                            updateTimer(min, sec);
+                            startTimer();
 
-                        Log.i("timeMin", String.valueOf(TimeUnit.MILLISECONDS.toMinutes(timeDelta)));
-                        Log.i("timeSec", String.valueOf(TimeUnit.MILLISECONDS.toSeconds(timeDelta)));
+                            Log.i("timeMin", String.valueOf(TimeUnit.MILLISECONDS.toMinutes(timeDelta)));
+                            Log.i("timeSec", String.valueOf(TimeUnit.MILLISECONDS.toSeconds(timeDelta)));
                     }
+                        else {
+                            timerUp();
+                            stopTimer();
+                        }
                 }
                 else{
                     timerUp();
+                    stopTimer();
                     Log.i("timerUp", "called ");
                 }
             }
@@ -244,6 +274,7 @@ public class CrushFabFragment extends Fragment {
     public void timerUp(){
         payLayout.setVisibility(View.VISIBLE);
         timer.setText("Timer Up.");
+        setCounterAvailable(false);
     }
 
     public void checkDate(){
@@ -271,18 +302,17 @@ public class CrushFabFragment extends Fragment {
     }
 
     public void stopTimer(){
-        //countDownTimer.cancel();
+        countDownTimer.cancel();
         timerUp();
-        setCounterAvailable(false);
+        isTimerTicking = false;
     }
 
     public void startTimer(){
-        //countDownTimer.start();
-        Counter();
+        countDownTimer.start();
+        //Counter();
     }
 
-    public void updateTimer(int min,int sec){
-        String m,s;
+    public void updateTimer(long min,long sec){
         if(min <10){
             m = "0"+min;
         }

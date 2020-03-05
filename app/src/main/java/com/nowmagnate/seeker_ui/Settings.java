@@ -28,7 +28,7 @@ public class Settings extends AppCompatActivity {
     //App Settings UI
     private CardView notificationChatCard, accountSecurityCard,
                     privacyPermissionCard, helpFeedbackCard,
-                    aboutUsCard, changePlansCard;
+                    aboutUsCard;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +50,7 @@ public class Settings extends AppCompatActivity {
         privacyPermissionCard = findViewById(R.id.privacy_and_permission_card);
         helpFeedbackCard = findViewById(R.id.help_and_feedback_card);
         aboutUsCard = findViewById(R.id.about_us_card);
-        changePlansCard = findViewById(R.id.change_plans_card);
+
 
         toolbarTitle.setText("SETTINGS");
 
@@ -111,13 +111,7 @@ public class Settings extends AppCompatActivity {
             }
         });
 
-        changePlansCard.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                disableClick();
-                startActivity(new Intent(Settings.this,ChangePlans.class));
-            }
-        });
+
 
     }
 
@@ -161,7 +155,7 @@ public class Settings extends AppCompatActivity {
         accountSecurityCard.setClickable(true);
         notificationChatCard.setClickable(true);
         privacyPermissionCard.setClickable(true);
-        changePlansCard.setClickable(true);
+
     }
 
     public void disableClick(){
@@ -171,6 +165,6 @@ public class Settings extends AppCompatActivity {
         accountSecurityCard.setClickable(false);
         notificationChatCard.setClickable(false);
         privacyPermissionCard.setClickable(false);
-        changePlansCard.setClickable(false);
+
     }
 }
