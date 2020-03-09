@@ -33,6 +33,7 @@ import com.nowmagnate.seeker_ui.ProfileDetail;
 import com.nowmagnate.seeker_ui.R;
 import com.nowmagnate.seeker_ui.adapters.CardImageViewPagerAdapter;
 
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Timer;
@@ -227,7 +228,7 @@ public class CrushFabFragment extends Fragment {
         ref.child("time").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if(dataSnapshot.getValue()==null){
+                if(!dataSnapshot.exists()){
                     Map time = new HashMap();
                     currentTime = ((MainActivity)getContext()).getCurrentTime();
                     time.put("time",currentTime);
@@ -278,10 +279,18 @@ public class CrushFabFragment extends Fragment {
     }
 
     public void checkDate(){
+        ((MainActivity)getContext()).addDateStamp();
         ref.child("init_date").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if(!((MainActivity)getContext()).getDateStamp().equals(dataSnapshot.getValue())){
+                    Calendar c = Calendar.getInstance();
+                    Log.i("pop", c.getTime().toString().substring(0, 10));
+                    Map d = new HashMap();
+                    d.put("init_date", c.getTime().toString().substring(0, 10));
+                    ref.updateChildren(d);
+
+
                     Map time = new HashMap();
                     currentTime = ((MainActivity)getContext()).getCurrentTime();
                     time.put("time",currentTime);

@@ -22,7 +22,13 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.nowmagnate.seeker_ui.ChangePlans;
+import com.nowmagnate.seeker_ui.MainActivity;
 import com.nowmagnate.seeker_ui.R;
+
+import java.util.Calendar;
+import java.util.HashMap;
+import java.util.Map;
 
 public class PlanViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
@@ -30,11 +36,12 @@ public class PlanViewHolder extends RecyclerView.ViewHolder implements View.OnCl
     CardView baseCard;
     LinearLayout contentLayout;
     Context c;
-    TextView sticker,price;
+    TextView sticker,price,buy;
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference ref = database.getReference("planIndex");
     FirebaseAuth mAuth = FirebaseAuth.getInstance();
     FirebaseUser user = mAuth.getCurrentUser();
+    String SelectedPlan;
 
 
 
@@ -45,6 +52,7 @@ public class PlanViewHolder extends RecyclerView.ViewHolder implements View.OnCl
         this.contentLayout = itemView.findViewById(R.id.content_layout);
         this.sticker = itemView.findViewById(R.id.sticker);
         this.price = itemView.findViewById(R.id.price);
+        this.buy = itemView.findViewById(R.id.buy);
         this.c = c;
         itemView.setOnClickListener(this);
     }
@@ -62,6 +70,7 @@ public class PlanViewHolder extends RecyclerView.ViewHolder implements View.OnCl
                     else{
                         final String planName = dataSnapshot.getValue().toString();
                         sticker.setText(planName.toUpperCase());
+                        SelectedPlan = planName;
                         final DatabaseReference ref = database.getReference("plans");
                         ref.child(planName).addValueEventListener(new ValueEventListener() {
                             @Override
@@ -123,6 +132,27 @@ public class PlanViewHolder extends RecyclerView.ViewHolder implements View.OnCl
                 @Override
                 public void onCancelled(@NonNull DatabaseError databaseError) {
 
+                }
+            });
+
+            buy.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(SelectedPlan!=null){
+                        Calendar cad = Calendar.getInstance();
+                        cad.add(Calendar.DATE,30);
+                        Log.i("popGet", cad.getTime().toString().substring(0,10));
+                        Map plan = new HashMap();
+                        plan.put("activePlan",SelectedPlan);
+
+                        Map endPlan = new HashMap();
+                        endPlan.put("endPlan",cad.getTime().toString().substring(0,10));
+                        DatabaseReference ref = database.getReference("seeker-378eb").child(user.getUid());
+                        ref.updateChildren(plan);
+                        ref.updateChildren(endPlan);
+                        ref.child("superLikes").setValue(5);
+                        ((ChangePlans)c).popToast("Activated plan " + SelectedPlan.toUpperCase());
+                    }
                 }
             });
     }

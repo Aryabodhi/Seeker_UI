@@ -156,7 +156,7 @@ public class basicInfoActivity extends AppCompatActivity implements DatePickerDi
         gender = new HashMap();
         phone_base = new HashMap();
 
-        if(dateOfBirthText.getText().toString().isEmpty()){
+        if(dateOfBirthText.getText().toString().isEmpty()||dateOfBirthText.getText().toString().equals("You need to be atleast 13")){
             dateOfBirthText.setHintTextColor(Color.RED);
             isAllFieldsClear = false;
             popToast(null);
@@ -181,15 +181,26 @@ public class basicInfoActivity extends AppCompatActivity implements DatePickerDi
             isAllFieldsClear = true;
         }
 
-        if(isAllFieldsClear) {
-            gender.put("gender", gen);
-            phone_base.put("phone", phone.getText().toString());
-            dob.put("dob", dateOfBirthText.getText());
-            ref = ref.child(user.getUid());
-            ref.updateChildren(dob);
-            ref.updateChildren(gender);
-            ref.updateChildren(phone_base);
+        if(!phone.getText().toString().isEmpty()){
+            if(gen!=null||!gen.isEmpty()){
+                if(!dateOfBirthText.getText().toString().isEmpty()){
+                    if(!dateOfBirthText.getText().toString().equals("You need to be atleast 13")){
+                    gender.put("gender", gen);
+                    phone_base.put("phone", phone.getText().toString());
+                    dob.put("dob", dateOfBirthText.getText());
+                    ref = ref.child(user.getUid());
+                    ref.updateChildren(dob);
+                    ref.updateChildren(gender);
+                    ref.updateChildren(phone_base);
+
+                    finish();
+
+                    }
+                }
+            }
         }
+
+
 
     }
 

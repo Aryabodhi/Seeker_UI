@@ -16,7 +16,11 @@ import androidx.annotation.Nullable;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
+import com.google.android.gms.auth.api.signin.GoogleSignIn;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
+import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -198,6 +202,23 @@ public class AccountsFragment extends Fragment {
         // Firebase sign out
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
         mAuth.signOut();
+        GoogleSignInClient mGoogleSignInClient;
+        GoogleSignInOptions gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestEmail()
+                .requestProfile()
+                .build();
+        // [END config_signin]
+
+        mGoogleSignInClient = GoogleSignIn.getClient(getContext(), gso);
+
+        mGoogleSignInClient.signOut().addOnCompleteListener(((MainActivity)getContext()).getMainActivity(),
+                new OnCompleteListener<Void>() {
+                    @Override
+                    public void onComplete(@NonNull Task<Void> task) {
+
+                    }
+                });
         ((MainActivity)getContext()).signOut();
         startActivity(new Intent(getContext(),LoginRegister.class));
         ((MainActivity)getContext()).finish();

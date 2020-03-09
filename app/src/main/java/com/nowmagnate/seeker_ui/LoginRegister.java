@@ -33,6 +33,7 @@ import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.nowmagnate.seeker_ui.util.GradientStatusBar;
 
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -278,16 +279,69 @@ public class LoginRegister extends AppCompatActivity {
 
     public void isInfo(){
         final FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference ref = database.getReference("seeker-378eb");
+        final DatabaseReference ref = database.getReference("seeker-378eb");
         FirebaseAuth mAuth = FirebaseAuth.getInstance();
-        FirebaseUser user = mAuth.getCurrentUser();
+        final FirebaseUser user = mAuth.getCurrentUser();
 
         ref.child(user.getUid()).child("phone").addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if(dataSnapshot.getValue()==null){
-                    startActivity(new Intent(LoginRegister.this,basicInfoActivity.class));
-                    finish();
+                    ref.child(user.getUid()).child("activePlan").addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                            if(dataSnapshot.getValue()==null) {
+                                Calendar cad = Calendar.getInstance();
+                                cad.add(Calendar.DATE,30);
+                                Map m = new HashMap();
+                                Map s = new HashMap();
+                                Map n = new HashMap();
+                                Map endPlan = new HashMap();
+                                endPlan.put("endPlan",cad.getTime().toString().substring(0,10));
+                                m.put("activePlan","basic");
+                                s.put("superLikes",5);
+                                n.put("name",user.getDisplayName());
+
+                                ref.child(user.getUid()).updateChildren(m);
+                                ref.child(user.getUid()).updateChildren(s);
+                                ref.child(user.getUid()).updateChildren(n);
+                                ref.child(user.getUid()).updateChildren(endPlan);
+
+                                startActivity(new Intent(LoginRegister.this,basicInfoActivity.class));
+                                finish();
+                            }else{
+                                if(!dataSnapshot.getValue().toString().equals("basic")){
+                                    ref.child(user.getUid()).child("init_date").addValueEventListener(new ValueEventListener() {
+                                        @Override
+                                        public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                                            if(dataSnapshot!=null) {
+                                                Calendar c = Calendar.getInstance();
+                                                String dateToday = c.getTime().toString().substring(0, 10);
+                                                if (!dataSnapshot.getValue().toString().equals(dateToday)) {
+                                                    Map s = new HashMap();
+                                                    s.put("superLikes", 5);
+                                                    ref.child(user.getUid()).updateChildren(s);
+                                                    startActivity(new Intent(LoginRegister.this,basicInfoActivity.class));
+                                                    finish();
+                                                }
+                                            }
+                                        }
+
+                                        @Override
+                                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                                        }
+                                    });
+                                }
+                            }
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError databaseError) {
+
+                        }
+                    });
+
                 }
                 else{
                     startActivity(new Intent(LoginRegister.this,MainActivity.class));

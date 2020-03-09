@@ -1,6 +1,7 @@
 package com.nowmagnate.seeker_ui;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -8,6 +9,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.nowmagnate.seeker_ui.adapters.OnPlanListener;
 import com.nowmagnate.seeker_ui.adapters.PlanAdapter;
@@ -45,6 +47,10 @@ public class ChangePlans extends AppCompatActivity implements OnPlanListener {
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         planRecycler.setLayoutManager(linearLayoutManager);
 
+    }
+
+    public void popToast(String s){
+        Toast.makeText(ChangePlans.this,s,Toast.LENGTH_SHORT).show();
     }
 
     @Override

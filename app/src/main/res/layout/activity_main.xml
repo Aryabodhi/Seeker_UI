@@ -115,4 +115,48 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
 
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/buyDialog"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:translationZ="10dp"
+        android:padding="16dp"
+        android:visibility="gone"
+        android:clickable="true"
+        android:background="@drawable/gradient_red_alpha"
+        android:paddingTop="66dp"
+        tools:context=".dialogs.paymentDialog">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/buyPlanCard"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:clickable="true"
+            android:foreground="?attr/selectableItemBackground"
+            android:stateListAnimator="@animator/elevation_animation"
+            app:cardCornerRadius="16dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:background="#00A76B"
+                android:gravity="center"
+                android:paddingLeft="20dp"
+                android:paddingTop="10dp"
+                android:paddingRight="20dp"
+                android:paddingBottom="10dp"
+                android:text="Buy PLUS or GOLD plan for premium features"
+                android:textColor="#ffffff"
+                android:textSize="20sp" />
+
+        </androidx.cardview.widget.CardView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

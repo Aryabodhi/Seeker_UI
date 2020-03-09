@@ -8,4 +8,5 @@
     <color name="TextColor">#471111</color>
     <color name="SelectColor">#EF5557</color>
     <color name="unSelectColor">#979595</color>
+    <color name="Transparent">#00979595</color>
 </resources>

@@ -3,7 +3,10 @@ package com.nowmagnate.seeker_ui;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.annotation.TargetApi;
 import android.app.Activity;
@@ -30,6 +33,8 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.nowmagnate.seeker_ui.adapters.OnPlanListener;
+import com.nowmagnate.seeker_ui.adapters.PlanAdapter;
 import com.nowmagnate.seeker_ui.fragments.AccountsFragment;
 import com.nowmagnate.seeker_ui.fragments.CardsFragment;
 import com.nowmagnate.seeker_ui.fragments.CoinsFragment;
@@ -44,11 +49,13 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements OnPlanListener {
 
     //Bottom App Bar Icons UI
     private ImageView cards,coins,messages,account;
-    private FloatingActionButton crushFab,likeFAB,dislikeFab;
+    private FloatingActionButton crushFab;
+    private CardView buyPlanCard;
+    private ConstraintLayout buyDialog;
 
     SharedPreferences preferences;
     Fragment selectedFragment = null;
@@ -71,6 +78,8 @@ public class MainActivity extends AppCompatActivity {
         messages = findViewById(R.id.messages);
         account = findViewById(R.id.account);
         crushFab = findViewById(R.id.crushFab);
+        buyDialog = findViewById(R.id.buyDialog);
+        buyPlanCard = findViewById(R.id.buyPlanCard);
 
         preferences = getSharedPreferences("UPDATED",MODE_PRIVATE);
         if(preferences.getBoolean("isUPDATED", false)==false){
@@ -81,11 +90,28 @@ public class MainActivity extends AppCompatActivity {
 
         cards.setColorFilter(Color.parseColor("#AB0092FF"));
         addDateStamp();
+        checkPlanEnd();
 
         getCurrentTime();
 
         setStatusBarGradiant(this);
         intBottomNavBar();
+
+        buyPlanCard.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                buyPlanCard.setClickable(false);
+                startActivity(new Intent(MainActivity.this,ChangePlans.class));
+                showPayLayout(false);
+            }
+        });
+
+        buyDialog.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                showPayLayout(false);
+            }
+        });
     }
 
     public void intBottomNavBar(){
@@ -206,6 +232,7 @@ public class MainActivity extends AppCompatActivity {
     public String getDateStamp(){
         Calendar c = Calendar.getInstance();
 
+
         return c.getTime().toString().substring(0,10);
     }
 
@@ -214,12 +241,56 @@ public class MainActivity extends AppCompatActivity {
         return c.getTimeInMillis();
     }
 
-    @Override
-    public void onBackPressed() {
-        Intent a = new Intent(Intent.ACTION_MAIN);
-        a.addCategory(Intent.CATEGORY_HOME);
-        a.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-        startActivity(a);
+    public void showPayLayout(boolean show){
+        if(show) {
+            buyDialog.setVisibility(View.VISIBLE);
+        }else{
+            buyDialog.setVisibility(View.GONE);
+        }
     }
 
+    public void checkPlanEnd(){
+        ref.child(user.getUid()).child("endPlan").addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if(dataSnapshot.exists()){
+                    if(dataSnapshot.getValue().toString().equals(getDateStamp())){
+                        ref.child(user.getUid()).child("activePlan").setValue("basic");
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
+    }
+
+    @Override
+    public void onBackPressed() {
+        if(buyDialog.getVisibility()==View.VISIBLE){
+            showPayLayout(false);
+        }else {
+            Intent a = new Intent(Intent.ACTION_MAIN);
+            a.addCategory(Intent.CATEGORY_HOME);
+            a.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(a);
+        }
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        buyPlanCard.setClickable(true);
+    }
+
+    @Override
+    public void onPlanClick(int position) {
+
+    }
+
+    public Activity getMainActivity(){
+        return this;
+    }
 }
